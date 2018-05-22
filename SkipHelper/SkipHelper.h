@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#define KWebUrl @"SKWebUrl"
+#define KbackImageUrl @"KbackImageUrl"
 @interface SkipHelper : NSObject
 + (instancetype)shareHelper;
 /* 必须先 设置appid **/
