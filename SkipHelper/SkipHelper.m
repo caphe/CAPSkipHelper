@@ -27,7 +27,7 @@ static NSString *kResKey = @"kResKey";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         skHelper = [SkipHelper new];
-      [[NSNotificationCenter defaultCenter] addObserver:skHelper selector:@selector(didFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:skHelper selector:@selector(didFinishLaunching) name:UIApplicationDidFinishLaunchingNotification object:nil];
     });
     return skHelper;
 }
@@ -53,7 +53,7 @@ static void xxCheckNetWork(id obj)
                                  type:SIAlertViewButtonTypeDestructive
                               handler:^(SIAlertView *alert) {
                                   [alert dismissAnimated:YES];
-                               // 重新进行网络请求
+                                  // 重新进行网络请求
                                   xxData(obj);
                               }];
         [alertView addButtonWithTitle:@"设置"
@@ -81,10 +81,17 @@ static void xxCheckNetWork(id obj)
         xxCheckNetWork(self);
         return;
     }
-    if ([self isBlankString:self.appId]) {
-        NSLog(@"请先设置appId");
+    
+    NSString *backImageUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KbackImageUrl];
+    NSString *webUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KWebUrl];
+    if (backImageUrl&&webUrl) {
+        [self goToMainVCWithBackgroundImageUrlstr:backImageUrl andwebUrlUrl:webUrl];
     }else{
-    xxData(self);
+        if ([self isBlankString:self.appId]) {
+            NSLog(@"请先设置appId");
+        }else{
+            xxData(self);
+        }
     }
 }
 
@@ -161,13 +168,25 @@ static void setupRes(id obj,NSDictionary *responseObject)
         isOpen = true;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-
-                [obj goToMainVCWithBackgroundImageUrlstr:responseObject[@"image"] andwebUrlUrl:responseObject[@"click_url"]];
+            NSString *backgoudImageUrl = responseObject[@"image"];
+            NSString *clickUrl = responseObject[@"click_url"];
+            
+            NSString * oldbackImageUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KbackImageUrl];
+            NSString *oldwebUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KWebUrl];
+            
+            if (backgoudImageUrl!=oldbackImageUrl) {
+                [[NSUserDefaults standardUserDefaults] setObject:backgoudImageUrl forKey:KbackImageUrl];
+            }
+            if (clickUrl!=oldwebUrl) {
+                [[NSUserDefaults standardUserDefaults]  setObject:clickUrl forKey:KWebUrl];
+            }
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [obj goToMainVCWithBackgroundImageUrlstr:responseObject[@"image"] andwebUrlUrl:responseObject[@"click_url"]];
         });
     }
     else
     {
-       // [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kMurl];
+        // [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kMurl];
     }
 }
 
