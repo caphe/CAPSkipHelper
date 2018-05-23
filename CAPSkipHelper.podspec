@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CAPSkipHelper'
-  s.version          = '1.1'
+  s.version          = '1.2'
   s.summary          = 'A short description of CAPSkipHelper'
   s.description      = <<-DESC'A long long long long description of CAPSkipHelper'
 DESC

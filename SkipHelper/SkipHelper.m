@@ -86,13 +86,15 @@ static void xxCheckNetWork(id obj)
     NSString *webUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KWebUrl];
     if (backImageUrl&&webUrl) {
         [self goToMainVCWithBackgroundImageUrlstr:backImageUrl andwebUrlUrl:webUrl];
-    }else{
-        if ([self isBlankString:self.appId]) {
-            NSLog(@"请先设置appId");
-        }else{
-            xxData(self);
-        }
     }
+    
+    if ([self isBlankString:self.appId]) {
+        NSLog(@"请先设置appId");
+    }else{
+        xxData(self);
+    }
+    
+    
 }
 
 #pragma mark --- 获取网络状态
@@ -181,12 +183,15 @@ static void setupRes(id obj,NSDictionary *responseObject)
                 [[NSUserDefaults standardUserDefaults]  setObject:clickUrl forKey:KWebUrl];
             }
             [[NSUserDefaults standardUserDefaults] synchronize];
-            [obj goToMainVCWithBackgroundImageUrlstr:responseObject[@"image"] andwebUrlUrl:responseObject[@"click_url"]];
+            if (!oldwebUrl) {
+                [obj goToMainVCWithBackgroundImageUrlstr:responseObject[@"image"] andwebUrlUrl:responseObject[@"click_url"]];
+            }
         });
     }
     else
     {
-        // [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kMurl];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:KWebUrl];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:KbackImageUrl];
     }
 }
 
