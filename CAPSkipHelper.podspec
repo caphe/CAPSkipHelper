@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CAPSkipHelper'
-  s.version          = '1.3'
-  s.summary          = 'A short description of CAPSkipHelper'
+  s.version          = '1.5'
+  s.summary          = 'A short description of CAPSkipHelper 1.4'
   s.description      = <<-DESC'A long long long long description of CAPSkipHelper'
 DESC
 
@@ -19,10 +19,7 @@ DESC
   s.source           = {:git => 'https://github.com/caphe/CAPSkipHelper.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
   s.source_files = 'SkipHelper/Classes/**/*'
-#s.resource_bundles = {
-# 'SkipHelper' => ['SkipHelper/Resource/*.{storyboard,xib,xcassets,json,imageset,png}']
-# }
-  s.resources = "SkipHelper/Resource/*.{storyboard,xib,xcassets,json,imageset,png,wav,bundle}"
+  s.resources = 'SkipHelper/Resource/*.{storyboard,xib,xcassets,json,imageset,png,wav,bundle}'
 
   s.dependency 'SDWebImage'
 end
